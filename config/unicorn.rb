@@ -4,7 +4,7 @@ app_root = File.expand_path("../..", __FILE__)
 working_directory app_root
 
 # Listen on fs socket for better performance
-listen "/tmp/unicorn.exams.sock", :backlog => 64
+listen "/tmp/unicorn.exam.sock", :backlog => 64
 #listen 4201, :tcp_nopush => false
 
 # Nuke workers after 30 seconds instead of 60 seconds (the default)

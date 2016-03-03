@@ -5,9 +5,9 @@ require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
 set :term_mode, nil
 
-set :domain, '112.124.97.145'
-set :deploy_to, '/mnt/www/exams/exam'
-set :repository, 'https://github.com/liyijie/exam'
+set :domain, '139.196.38.11'
+set :deploy_to, '/home/deploy/exam'
+set :repository, 'https://github.com/dtby/exam'
 set :branch, 'master'
 
 # For system-wide RVM install.
