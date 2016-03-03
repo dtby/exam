@@ -1,0 +1,54 @@
+<%= content_for :script do %>
+  <%= javascript_include_tag "_user", 'data-turbolinks-track' => true %>
+<% end %>
+<div class="row user">
+
+  <div class="col-md-2" role="complementary">
+	<%= render :partial => "nav_left" %>
+  </div>
+
+  <div class="col-md-10">
+
+    <div class="row common-info">
+      <%= render :partial => "base_info", locals: {numbers: @numbers} %>
+	  </div>
+
+	  <div class="row self-main-context">
+
+	    <ul class="nav nav-pills show-content">
+        <li role="presentation" class="active"><%= link_to "我的课程","#" %></li>
+      </ul>
+      <!-- ###########################正在学习的课程########################## -->
+      <div class="my-course-container div-content">
+         <% if @collect_course.blank? %>
+          <div class="blank">没有收藏的课程</div>
+        <% else %>
+          <% @collect_course.each do |course| %>
+            <div class="row my-course">
+              <div class="col-sm-3 ov-hidden text-center">
+                <%= link_to image_tag(course.attachment.content.url(:c_350_230), width: "100%"), show_courses_path(course.number), class: 'img' if course.attachment%>
+              </div>
+              <div class="col-sm-9">
+                <div class="my-course-desc"> 
+                  <h4><%= link_to course.name, show_courses_path(course.number) %><br>
+                    <small>
+                      <span class="text-success">18小时前更新至3-3</span> | 
+                      学习耗时：15分钟 |
+                      最后学习：32分钟
+                    </small>
+                  </h4><br>
+                  <p><%= truncate(course.description, length: 180) %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+
+	    </div>
+      <!-- ###########################正在学习的课程########################## -->
+
+    </div>
+
+  </div>
+
+</div>

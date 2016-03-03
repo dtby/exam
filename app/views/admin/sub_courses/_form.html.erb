@@ -1,0 +1,76 @@
+<%= form_for([:admin, @course, @sub_course], html: {class: "form-horizontal"}) do |f| %>
+  <div class="form-group" id="category">
+    <%= label_tag :category, '所属分类', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8">
+      <% @categories.each do |category| %>
+        <%= f.radio_button :category_id, category.id, required: true %>
+        <%= f.label :category_id, category.name %>
+      <% end %>
+    </div>
+  </div>
+  <div class="form-group" id="tags" style="display: none;">
+    <%= label_tag :tag, '课程标签', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8">
+      <% SubCourse::TAGS.to_a.each do |tag| %>
+        <%= f.radio_button :tag, tag[0]%>
+        <%= f.label :tag, tag[1] %>
+      <% end %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :name, '子课程名称', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+  </div>
+
+  <% if @sub_course.attachment.present? && @sub_course.attachment.content.present? %>
+    <div class="form-group">
+      <%= label :attachment_tag, '已传课件', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-8">
+        <div style="width: 100%; height: 400px; overflow: hidden; background: #fff;" ><%= pdfjs_viewer pdf_url: @sub_course.attachment.content.url, style: :full %></div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :attachment, '课件上传', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.file_field :attachment, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :or, '或者', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4 container">
+    </div>
+  </div>
+  <div class="form-group">
+    <%= label_tag :attachment_file_url, '课程附件[地址]', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4 container">
+      <%= text_field_tag :attachment_file_url, @sub_course.try(:attachment).try(:file_url), class: 'form-control'%>
+    </div>
+  </div>
+
+  <hr></hr>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button class="btn btn-success" type="submit">
+        <span class="glyphicon glyphicon-floppy-save">保存</span>
+      </button>
+    </div>
+  </div>
+<%end%>
+
+<script type="text/javascript">
+  $(function(){
+    $("#sub_course_attachment").fileinput();
+    var fRadio = $("#category input[type='radio']").first();
+    fRadio.click(function(){
+      $("#tags").show();
+    })
+    fRadio.siblings().click(function(){
+      $("#tags").hide();
+    })
+  });
+</script>

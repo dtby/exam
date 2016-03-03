@@ -1,0 +1,173 @@
+<%= content_for :script do %>
+  <%= javascript_include_tag 'echarts/echarts-all','data-turbolinks-track' => true %>
+<% end %>
+<div class="main-content">
+  <%= render "left_bar" %>
+
+  <div class="teacher-wrapper show-score">
+  	<div class="show-score-title">
+  	  <!-- <a href="javascript:void(0)" class="btn btn-primary">教师查阅</a> -->
+      <div class="main-title"><%= @sub_course.name %></div>
+  	</div>
+	
+	<div id="mutilGradepicture" class="mutil-grade-picture">
+	  <div class="average-score row">
+		  <div class="sub-title"><span class="badge">1</span>每个班每门课的平均分统计图</div>
+	  	  <div id="averageScore" class="col-sm-8"></div>
+	  	  <div class="col-sm-3 desc">
+	  	  	<div><%= "#{@specialtie.name}#{@grades.map(&:name)}测试分析结果" %></div>
+	  	  </div>
+		</div>
+
+		<div id="mutilGradePercentage" class="score-percentage">
+		  <div class="sub-title"><span class="badge">2</span>每个班的分数段分布概率统计图</div>
+
+      <% @grades.each_with_index do |grade, index| %>
+        <% if index%3 == 0 %>
+  		    <div class="row">
+        <% end %>
+  		  	<div class="col-sm-4 score-percentage-picture"></div>
+  		  <% if index%3 == 2 %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if @grades.size%3 != 0 %>
+        </div>
+      <% end %>
+		</div>
+
+    <%= form_tag show_grade_score_teachers_path, method: :get, id: "selectGradeForm" do %>
+      <%= hidden_field_tag "specialty_id", params[:specialty_id]%>
+      <%= hidden_field_tag "course_id", params[:course_id]%>
+      <%= hidden_field_tag "sub_course_id", params[:sub_course_id]%>
+      <%= hidden_field_tag "grade_ids", params[:grade_ids] %>
+  		<div class="search-score-btn">
+        <button type="button" class="btn btn-primary" onclick="this.form.action='<%= export_teachers_path%>';this.form.submit();">
+        </span>导出EXCEL</button>
+        <button type="button" class="btn btn-danger" onclick="this.form.action='<%= show_grade_score_teachers_path%>';this.form.submit();">
+        进入下一页</button>
+  		</div>
+    <% end %>
+	</div>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  var averageScore = echarts.init(document.getElementById('averageScore')); 
+  option = {
+    tooltip: {
+        trigger: 'item'
+    },
+    xAxis: [
+        {
+            type: 'category',
+            data: [
+              <% @grades.each do |grade| %>
+                '<%= grade.name %>' ,
+              <% end %>
+            ],
+            name: "班级"
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value',
+            name: "平均分",
+            splitNumber: 10
+        }
+    ],
+    series: [
+        {
+            type: 'bar',
+            itemStyle: {
+                normal: {
+                    color: function(params) {
+                        // build a color map as your need.
+                        var colorList = [
+                          '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                           '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                           '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                        ];
+                        return colorList[params.dataIndex]
+                    },
+                    label: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{c}'
+                    }
+                }
+            },
+            data: [
+              <% @grades.each do |grade| %>
+                '<%= grade.exam_score[:avg_score] %>' ,
+              <% end %>
+            ]
+        }
+    ]
+  };	
+  averageScore.setOption(option);  
+
+  //==========================================================================================================================
+  <% @grades.each_with_index do |grade, index| %>
+		var scorePercentage = echarts.init($(".score-percentage-picture").eq(<%= index %>).get(0)); 
+		option = {
+			title: {
+				x: "center",
+				y: "bottom",
+				text: "<%= grade.name %>"
+			},
+		    tooltip : {
+		        trigger: 'item',
+		        formatter: "{b} : {c}人 ({d}%)"
+		    },
+		    series : [
+		        {
+		            name:'分数段',
+		            type:'pie',
+		            radius : "40%",
+		            center: ['50%', '50%'],
+		            itemStyle : {
+		                normal : {
+		                    label : {
+		                        position : 'outter',
+		                        formatter : function (params) {                         
+		                          return params.name
+		                        }
+		                    },
+		                    labelLine : {
+		                        show : true
+		                    }
+		                },
+		                emphasis : {
+		                    label : {
+		                        show : true,
+		                        formatter : "{b} {d}%"
+		                    }
+		                }
+		                
+		            },
+		            data:[
+                    <% unless grade.exam_score["E"] == 0 %>
+		                  {value: "<%= grade.exam_score["E"] %>", name:'60分以下'},
+                    <% end %>
+                    <% unless grade.exam_score["D"] == 0 %>
+                      {value: "<%= grade.exam_score["D"] %>", name:'60~70分'},
+                    <% end %>
+                    <% unless grade.exam_score["C"] == 0 %>
+                      {value: "<%= grade.exam_score["C"] %>", name:'70~80分'},
+                    <% end %>
+                    <% unless grade.exam_score["B"] == 0 %>
+                      {value: "<%= grade.exam_score["B"] %>", name:'80~90分'},
+                    <% end %>
+                    <% unless grade.exam_score["A"] == 0 %>
+                      {value: "<%= grade.exam_score["A"] %>", name:'90分以上'}
+                    <% end %>
+		            ]
+		        }
+		    ]
+		};
+    scorePercentage.setOption(option);   
+  <% end %>
+</script>

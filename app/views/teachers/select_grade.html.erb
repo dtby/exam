@@ -1,0 +1,53 @@
+<%= content_for :script do %>
+ <%= javascript_tag do %>
+    actionPath = "<%= my_score_teachers_path %>"
+  <% end %>
+  <%= javascript_include_tag "_teacher_page" %>
+<%end%>
+<div class="main-content">
+  <%= render "left_bar" %>
+
+  <div class="teacher-wrapper">
+
+	<div class="search-step col-sm-offset-3">
+	  <ul class="nav nav-pills">
+        <li role="presentation"><a href="javascript:void(0)">第一步 选择专业</a></li>
+        <li role="presentation" class="active"><a href="javascript:void(0)">第二步 选择班级</a></li>
+        <li role="presentation"><a href="javascript:void(0)">第三步 选择课程</a></li>
+        <li role="presentation"><a href="javascript:void(0)">第四步 选择测试</a></li>
+      </ul>
+	</div>
+	<%= form_tag select_course_teachers_path, method: :get, id: "selectGradeForm" do %>
+	  <% if @grades.present? %>
+	  	<% @grades.each_with_index do |grade,index| %>
+		  <% if index%4 == 0 %>
+		  <div class="condition-row">
+		  <% end %>
+			<div class="col-sm-3">
+			  <%= check_box_tag "grade_ids[#{index}]", grade[0], params[:grade_ids].present? &&  params[:grade_ids].include?(grade[0].to_s) %>
+			  <label for="grade_ids_<%= index %>"><%= grade[1] %></label>
+			</div>
+		  <% if index%4 == 3 %>
+		  </div>
+		  <% end %>
+		<% end %>
+
+		<% if @grades.length % 4 != 0 %>
+		   </div>
+		<% end %>
+	  <% else %>
+	  	<div class="blank">当前专业没有班级</div>
+	  <% end %>
+
+	  <%= hidden_field_tag "specialty_id", params[:specialty_id]%>
+	  <div class="search-score-btn">
+			<button type="button" class="btn btn-primary" onclick="this.form.action='<%= my_score_teachers_path%>';this.form.submit();">
+	    <span class="glyphicon glyphicon-hand-left"></span>
+			上一步</button>
+			<%= button_tag(type: "submit", class: "btn btn-success", id: "nextStep", disabled: params[:grade_ids].blank?) do %>
+			  下一步  <span class="glyphicon glyphicon-hand-right"></span>
+			<% end %>
+	  </div>
+	<% end %>
+  </div>
+</div>

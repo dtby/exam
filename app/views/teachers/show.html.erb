@@ -1,0 +1,88 @@
+<% content_for :crumbs do%>
+  <ol class="breadcrumb">
+  	<li><span class="glyphicon glyphicon-home">&nbsp;</span>当前位置</li>
+  	<li><%= link_to "首页", root_path %></li>
+  	<li><%= link_to "教师信息", teachers_path %></li>
+  	<li class="active"><%= @teacher.name %>【老师】</li>
+  </ol>
+<% end %>
+
+<div class="main-content">
+	<div id="teacher-info" class="wrapper">
+		<div class="teacher-img">
+			<%= image_tag(@teacher.image.avatar.url(:t_280_370))%>
+		</div>
+		<div class="teacher-data plus">
+		  <div class="title-content">
+	      <p class="title">基本信息</p>
+	      <p class="line"></p>
+		  </div>
+		  <ul>
+		  	<li class="width-50">
+		  		姓名:	<%= @teacher.name %>
+		  	</li>
+		  	<li class="width-50">
+		  		出生年月:	 <%= @teacher.birthday %>
+		  	</li>
+		  	<li class="width-50">
+		  		专业技术职位:	<%= @teacher.tec_position %>
+		  	</li>
+		  	<li class="width-50">
+		  		所属院系:	 <%= @teacher.try(:grade).try(:academy).try(:name) %>
+		  	</li>
+		  	<li class="width-50">
+		  		手机号码:	 <%= @teacher.phone %>
+		  	</li>
+		  	<li class="width-50">
+		  		电子邮箱:	 <%= @teacher.email %>
+		  	</li>
+		  	<li class="width-50">
+		  		资格证书:	 <%= @teacher.qualification %>
+		  	</li>
+		  	<li class="width-50">
+		  		传真号码:	 <%= @teacher.fax.present? ? @teacher.fax : '暂无'%>
+		  	</li>
+		  	<li class="width-50">
+		  		最终学历:	 <%= @teacher.final_education %>
+		  	</li>
+		  	<li class="width-50">
+		  		最高学位:	 <%= @teacher.final_degree %>
+		  	</li>
+		  	<li class="width-100">
+		  		教学与技术专长:	 <%= @teacher.tec_expertise %>
+		  	</li>
+		  </ul>
+		  <div class="title-content">
+	      <p class="title">工作简历</p>
+	      <p class="line"></p>
+		  </div>
+		  <ul>
+		  	<li class="width-100">
+		  		<%= @teacher.resume %>
+		  	</li>
+		  </ul>
+		</div>
+	</div>
+	<div class="course-center">
+		<div class="nav-bar">
+  		<span class="btn btn-primary by-btn-bg">课程中心</span>
+  	</div>
+  	<ul class="courses">
+  	  <% @teacher.teacher_courses.each do |teacher_course|%>
+	  		<li>
+	  			<%= link_to show_courses_path(teacher_course.course.number), class: 'image' do%>
+	  			  <%= image_tag(teacher_course.course.attachment.content.url(:c_340_200))%>
+	  			<% end %>
+	  			<p class="course-title"><%= link_to teacher_course.course.name, show_courses_path(teacher_course.course.number)%></p>
+	    			<div class="description">
+	    				<span>该课程一共有<%= teacher_course.try(:course).try(:sub_courses).try(:size)%>课时</span>
+	    				<label>
+	  		  			<span class="glyphicon glyphicon-star"></span>
+	  		  			<span><%= teacher_course.try(:course).get_likes(vote_scope: "collect").size %>人收藏</span>
+	    				</label>
+	    			</div>
+	  		</li>
+	  	<% end %>
+  	</ul>
+	</div>
+</div>

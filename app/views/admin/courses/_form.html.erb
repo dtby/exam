@@ -1,0 +1,154 @@
+<%= simple_form_for([:admin, @course], html: {class: "form-horizontal"}) do |f| %>
+	<div class="form-group">
+		<%= f.label :academy_id, '所属学院', class: 'col-sm-2 control-label' %>
+		<div class="col-sm-4">
+			<%= f.select(:academy_id, Academy.all.pluck(:name, :id), {prompt: '请选择学院'}, {class: 'form-control', id: "common_academy_id"}) %>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<%= f.label :specialty_id, '所属专业', class: 'col-sm-2 control-label' %>
+		<div class="col-sm-4">
+			<%= f.select(:specialty_id,  @specialties, {prompt: '请选择专业'}, {class: 'form-control', id: "common_specialty_id"}) %>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<%= label_tag :teachers, '教师团队', class: 'col-sm-2 control-label' %>
+		<div class="col-sm-4">
+			<% Teacher.all.each do |teacher| %>
+				<%= check_box_tag("course[teacher_ids][]", teacher.id, teacher.id.in?(@course.teachers.collect(&:id)))%>
+				<%= teacher.name%>
+			<%end%>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<%= label_tag :teachers, '课程负责人', class: 'col-sm-2 control-label' %>
+		<div class="col-sm-4">
+			<% Teacher.all.each do |teacher| %>
+				<%= f.radio_button :manager_id, teacher.id %>
+				<%= teacher.name %>
+			<% end %>
+		</div>
+	</div>
+
+	<% if @course.image.present? %>
+		<div class="form-group">
+			<%= label_tag :image, '已上传展示图', class: 'col-sm-2 control-label' %>
+			<div class="col-sm-4 container">
+				<%= image_tag(@course.image.avatar.url(:c_500_350), size: "340x200") %>
+			</div>
+		</div>
+	<% end %>
+	<div class="form-group">
+		<%= f.label :image, '课程展示图', class: 'col-sm-2 control-label' %>
+		<div class="col-sm-4 container">
+			<%= f.file_field :image %>
+		</div>
+	</div>
+
+	<% if @course.attachment.present? %>
+		<div class="form-group">
+			<%= label_tag :attachment, '已上传附件', class: 'col-sm-2 control-label' %>
+			<div class="col-sm-4 container">
+				<%= image_tag(@course.attachment.content.url(:c_500_350), size: "340x200") %>
+			</div>
+		</div>
+	<% end %>
+	<div class="form-group">
+		<%= f.label :attachment, '课程附件', class: 'col-sm-2 control-label' %>
+		<div class="col-sm-4 container">
+			<%= f.file_field :attachment %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= label_tag :or, '或者', class: 'col-sm-2 control-label' %>
+		<div class="col-sm-4 container">
+		</div>
+	</div>
+	<% if @course.attachment.present? && @course.attachment.file_url %>
+	  <div class="form-group">
+			<%= label_tag :attachment_file_url, '已上传课程附件地址', class: 'col-sm-2 control-label' %>
+			<div class="col-sm-4 container">
+				<%= text_field_tag :attachment_file_url, @course.attachment.file_url, class: 'form-control', disabled: true%>
+			</div>
+		</div>
+	<% end %>
+	<div class="form-group">
+		<%= label_tag :attachment_file_url, '课程附件[地址]', class: 'col-sm-2 control-label' %>
+		<div class="col-sm-4 container">
+			<%= text_field_tag :attachment_file_url, nil, class: 'form-control'%>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :name, '课程名称', class: 'col-sm-2 control-label' %>
+		<div class="col-sm-4">
+			<%= f.text_field :name, class: 'form-control' %>
+		</div>
+	</div>
+	<div id="applied" class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<%= f.check_box :college_applied, class: 'liyi-checkbox' %>
+			<%= f.label :college_applied, '校级精品课程', class: 'liyi-label' %>
+		</div>
+	</div>
+
+	<div id="city-applied" class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<%= f.check_box :city_applied, class: 'liyi-checkbox' %>
+			<%= f.label :city_applied, '市级精品课程', class: 'liyi-label' %>
+		</div>
+	</div>
+
+	<!-- <div class="form-group">
+	  <%#= f.label :scope, '精品课程', class: 'col-sm-2 control-label' %>
+		<div class="col-sm-offset-2 col-sm-10">
+			<%#= f.select :scope, options_for_select(Course.category_scopes.map {|k, v| [k, k]}), {prompt: '请选择。。。'} %>
+		</div>
+	</div> -->
+
+	<div class="form-group">
+		<%= f.label :applied_date, '申报时间', class: "col-sm-2 control-label" %>
+		<div class="col-sm-4">
+			<%= f.date_field :applied_date, class: "form-control", value: params[:action] == 'edit' ? @course.applied_date : "" %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :description, '课程描述', class: 'col-sm-2 control-label' %>
+		<div class="col-sm-4">
+			<%= f.text_area :description, size: '80x6', class: 'form-control' %>
+		</div>
+	</div>
+	<hr></hr>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button class="btn btn-success" type="submit">
+				<span class="glyphicon glyphicon-floppy-save">保存</span>
+			</button>
+		</div>
+	</div>
+<%end%>
+<% if params[:action] == "new" %>
+	<script type="text/javascript">
+		$(function(){
+			$("#course_attachment, #course_image").fileinput();
+			$("#city-applied").hide();
+			$("#course_college_applied").click(function(){
+	      if($("#course_college_applied").is(":checked")) {
+	      	$("#city-applied").show();
+	      }else{
+	      	$("#city-applied").hide();
+	      }
+			});
+		});
+	</script>
+<% end %>
+
+<%= content_for :script do %>
+  <%= javascript_tag do %>
+    get_specialties_path = "<%= get_specialties_user_index_path %>"
+    get_grades_path = "<%= get_grades_user_index_path %>"
+  <% end %>
+  <%= javascript_include_tag "_user_show", 'data-turbolinks-track' => true %>
+<% end %>

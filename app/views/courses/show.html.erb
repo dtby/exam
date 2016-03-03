@@ -1,0 +1,140 @@
+<%= content_for :script do %>
+  <%= javascript_tag do %>
+    course_praise_path = "<%= course_praise_courses_path%>"
+    course_collect_path = "<%= course_collect_courses_path%>"
+  <% end %>
+  <%= javascript_include_tag "_course_show", 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag "course-3", 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag  "modal_pdf", 'data-turbolinks-track' => true %>
+<%end%>
+
+<% content_for :crumbs do%>
+  <ol class="breadcrumb">
+    <li><span class="glyphicon glyphicon-home">&nbsp;</span>当前位置</li>
+    <li><%= link_to "首页", root_path %></li>
+    <li class="active"><%= @course.name %></li>
+  </ol>
+<% end %>
+
+<div class="main-content">
+  <div class="top-content" id="main-video">
+
+    <div class="left-content">
+      <div class="top-shadow">说课视频</div>
+      <div class="course-image">
+        <!-- 优先选择file_url选项 -->
+        <% unless @course.attachment && @course.attachment.file_url.present? %>
+          <video width="500" height="350" class="mejs-player" poster="<%= (@course.try(:image).try(:avatar).url(:c_500_350))%>" controls="controls" preload="none">
+            <source type="video/mp4" src="<%= @course.attachment.content.url %>" />
+          </video>
+        <% else %>
+          <video width="500" height="350" class="mejs-player" controls="controls" preload="none">
+            <source type="video/mp4" src="<%= @course.attachment.file_url %>" />
+          </video>
+        <% end %>
+      </div>
+      <div class="course-and-score">
+        <%= link_to "单元测试", after_class_courses_path, class: "course"%>
+        <%= link_to "测试成绩", teacher_signed_in? ? my_score_teachers_path : my_exams_user_index_path, class: "score"%>
+      </div>
+    </div>
+
+    <div class="right-content">
+      <h1><%= @course.name %></h1>
+      <% if !teacher_signed_in? %>
+        <div class="collect-zan-btns">
+          <%= form_tag course_collect_courses_path, method: :post, remote: true, id: "courseCollectPraise" do %>
+            <%= hidden_field_tag "course_id", @course.id%>
+            <button id="courseCollectBtn" type="button" class="btn btn-default">
+              <% collect_count = @course.get_likes(vote_scope: :collect).size %>
+              <% is_collect = current_user.present? && (current_user.voted_up_on? @course,vote_scope: :collect) %>
+              <span id="collectIcon" class="glyphicon glyphicon-star <%= 'text-muted' if !is_collect %>"></span>
+              <span id="collectFont" count="<%= collect_count %>" 
+                iscollect = "<%= is_collect %>" >
+                <%= collect_count %>
+              </span>
+            </button>
+            <button id="coursePraiseBtn" type="button" class="btn btn-default">
+              <% praise_count = @course.get_likes(vote_scope: :praise).size %>
+              <% is_praise = current_user.present? && (current_user.voted_up_on? @course,vote_scope: :praise) %>
+              <span id="praiseIcon" class="glyphicon glyphicon-heart <%= 'text-muted' if !is_praise %>"></span>
+              <span id="praiseFont" count="<%= praise_count %>"
+                ispraise = "<%= is_praise %>" >
+                <%= praise_count %>
+              </span>
+            </button>
+          <% end %>
+        </div>
+      <% end %>
+      <ul class="course-main">
+        <li class="course-info">
+          <span class="title">课程简介</span>
+          <div class="content lg-height">
+            <p>
+              <%= @course.description %>
+            </p>
+          </div>
+          <%= link_to("更多 >>", show_courses_path(@course.number, anchor: "category-list"))%>
+        </li>
+        <li class="teach-team">
+          <p class="title">教学团队</p>
+          <div class="teachers">
+            <% @teacher_courses.each do |teacher_course|%>
+              <div class="teacher-info">
+                 <%= link_to image_tag(teacher_course.try(:teacher).try(:image).try(:avatar).url(:t_60)), show_teachers_path(teacher_course.try(:teacher).try(:number)) if teacher_course.try(:teacher).try(:image).present? %>
+                 <p><%= teacher_course.try(:teacher).try(:name) %></p>
+              </div>
+            <% end %>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <%= render partial: "list" %>
+  <% if @course.number == "96659262" %>
+    <%= content_for :script do %>
+      <%= javascript_include_tag  "_toggle", 'data-turbolinks-track' => true %>
+    <%end%>
+    <%= render partial: "courses/1/main", locals: {teacher_courses: @teacher_courses} %>
+    <!-- 34675886 -->
+  <% elsif  @course.number == "64322745" %>
+    <%= content_for :script do %>
+      <%= javascript_include_tag  "_toggle", 'data-turbolinks-track' => true %>
+    <%end%>
+    <%= render partial: "courses/2/main", locals: {teacher_courses: @teacher_courses} %>
+  <% elsif @course.number == "49097443" %>
+    <%= content_for :script do %>
+      <%= javascript_include_tag  "_toggle_self", 'data-turbolinks-track' => true %>
+    <%end%>
+    <%= render partial: "courses/3/main", locals: {teacher_courses: @teacher_courses} %>
+  <% elsif @course.number == "61308289" %>
+    <%= content_for :script do %>
+      <%= javascript_include_tag  "_toggle", 'data-turbolinks-track' => true %>
+    <%end%>
+    <%= render partial: "courses/4/main", locals: {teacher_courses: @teacher_courses} %>
+  <% end %>
+</div>
+
+
+<script type="text/javascript">
+  $(function(){
+    $('.carousel').carousel({
+      interval: 1500
+    });
+    $('.viewPdf').each(function(){
+      var _this = $(this);
+      var title = $(this).data('name');
+      var pdf_link = $(this).attr('href');
+      _this.on('click',function(){
+        var iframe = '<object type="application/pdf" data="'+pdf_link+'" width="100%" height="500">不支持该格式，建议替换为pdf格式</object>'
+        $.createModal({
+            title:title,
+            message: iframe,
+            closeButton:true,
+            scrollable:false
+        });
+        return false;
+    });
+    })
+  })
+</script>

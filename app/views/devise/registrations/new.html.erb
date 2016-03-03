@@ -1,0 +1,34 @@
+<div class="panel-heading" style="background: #ffffff;">
+    <ul class="nav nav-pills lead">
+      <li class="<%= resource_name == :user ? 'active' : '' %>">
+        <%= link_to('用户注册', new_registration_path(:user), class: "navbar-link") %>
+      </li>
+      <li class="navbar-right <%= resource_name == :teacher ? 'active' : '' %>">
+        <%= link_to("教师注册", new_registration_path(:teacher), class: "navbar-link") %>
+      </li>
+    </ul>
+</div>
+
+<div class="panel-body">
+
+  <div id="flash_alert">
+    <%= render 'common/login_messages'%>
+  </div>
+
+
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <div class="form-inputs">
+    <%= f.input :phone, wrapper: 'login_input', autofocus: true, placeholder: "请输入用户名或账号" %>
+    <%= f.input :password, required: true, wrapper: 'password_input', placeholder: "请输入密码" %>
+    <%= f.input :password_confirmation, wrapper: 'password_input', required: true, placeholder: "请再次输入密码" %>
+
+  </div>
+
+  <div class="form-actions">
+  	<p class="text-center"><%= f.submit "注 册", class: "btn btn-info btn-md btn-100" %></p>
+  </div>
+<% end %>
+
+
+</div>
+

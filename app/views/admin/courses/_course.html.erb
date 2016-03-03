@@ -1,0 +1,36 @@
+<tr>
+  <td>
+    <% if course.image.present? && course.image.avatar.present? %>
+      <%= image_tag(course.image.avatar.url(:thumb), size: "50x50") if course.image%>
+    <% else %>
+      <%= image_tag(course.attachment.file_url, size: "50x50") if course.attachment%>
+    <% end %>
+  </td>
+  <td><%= course.number %></td>
+  <td><%= course.name %></td>
+  <td><%= course.try(:manager).try(:name) %></td>
+  <td><%= course.description.to_s[0..20] %></td>
+  <td><%= course.college_applied ? "是" : "否" %></td>
+  <td><%= course.city_applied ? "是" : "否" %></td>
+  <!-- <td><%#= link_to "子课程", admin_course_sub_courses_path(course)%></td> -->
+  <td><%= course.deleted? ? raw("<span class='text-danger'>已删除</span>") : ""%></td>
+  <% if can? :manage, Course %>
+    <td>
+      <%#= link_to [:admin, course], class: 'btn btn-xs btn-info', title: '查看' do %>
+        <!-- <span class="glyphicon glyphicon-eye-open"></span> -->
+      <%#end%>
+      <%= link_to edit_admin_course_path(course), class: 'btn btn-xs btn-default', title: '编辑' do %>
+        <span class="glyphicon glyphicon-edit"></span>
+      <%end%>
+      <% if course.deleted? %>
+        <%= link_to restore_admin_course_path(course), method: :patch, data: { confirm: '确定要还原吗？' }, class: 'btn btn-xs btn-default' do%>
+          <span class="glyphicon glyphicon-export"></span>
+        <% end %>
+      <% else%>
+        <%= link_to delete_admin_course_path(course), method: :patch, data: { confirm: '确定要删除吗？' }, class: 'btn btn-xs btn-default' do%>
+          <span class="glyphicon glyphicon-trash"></span>
+        <% end %>
+      <% end %>
+    </td>
+  <% end %>
+</tr>

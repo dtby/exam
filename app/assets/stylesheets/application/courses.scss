@@ -1,0 +1,227 @@
+.fright {
+  float: right;
+}
+.fleft {
+  float: left;
+}
+/*课程中心*/
+body.courses__index, body.courses__learning_center, body.teachers__index {
+  section.common-title {
+    height: 60px;
+    line-height: 60px;
+    padding: 0 16px 0 60px;
+    margin-top: 20px;
+    background: image-url('title-bg.png') no-repeat 8px 15px;
+    span.pull-left {
+      font-size: 24px;
+      font-weight: bold;
+      color: #070707;
+    }
+    span.pull-right {
+      color: #669ad3;
+      a.more {
+        width: 55px;
+        height: 60px;
+        line-height: 60px;
+        display: block;
+        background: image-url('more.png') no-repeat center right;
+      }
+    }
+  }
+  .main-content {
+    padding: 20px 30px;
+    background: #fff;
+    .serach-content {
+      .serach-name {
+        padding-top: 5px
+      }
+      .serach-course {
+        li a {
+          color: #171717;
+          padding: 5px 25px;
+        }
+        li.active a {
+          background-color: #6499d3;
+          padding: 5px 25px;
+          color: #fff;
+        }
+      }
+    }
+
+    .single-vedio-content {
+      margin: 0 -8px;
+      .vedio-content {
+        height: 300px;
+        width: 370px;
+        display: block;
+        float: left;
+        margin: 10px 8px;
+        padding: 10px;
+        border: solid #dfdede 1px;
+        overflow: hidden;
+        a.img {
+          width: 345px;
+          height: 230px;
+          display: block;
+          overflow: hidden;
+        }
+        a.img img {
+          width: 100%;
+          -webkit-transition:all 0.25s ease-in-out;
+          -moz-transition:all 0.25s ease-in-out;
+          -o-transition:all 0.25s ease-in-out;
+          -ms-transition:all 0.25s ease-in-out;
+          transition:all 0.25s ease-in-out;
+        }
+        a.img:hover img {
+          transform: scale(1.15,1.15);
+          -webkit-transform:scale(1.15,1.15);
+          -moz-transform:scale(1.15,1.15);
+          -ms-transform:scale(1.15,1.15);
+          -o-transform:scale(1.15,1.15);
+        }
+        p.title  a {
+          height: 30px;
+          line-height: 30px;
+          color: #070707;
+          font-size: 16px;
+          overflow: hidden;
+        }
+        .description{
+          height: 26px;
+          line-height: 26px;
+          overflow: hidden;
+          span.section {
+            width: 50%;
+          }
+          label {
+            font-size: normal;
+          }
+          a {
+            color: #fff;
+          }
+        }
+        .glyphicon-star {
+          color: orange;
+        }
+      }
+    }
+  }
+}
+
+.courses__show {
+  .modal-header {
+    padding: 10px;
+    background: #1a5aa0;
+    color: #fff;
+  }
+  .modal-body {
+    min-height: 500px;
+  }
+  //==============================
+  //珠宝课程教学条件样式
+  .related-download{
+    margin-top: 40px;
+    padding: 20px 30px;
+    background: #fff;
+    > .text-content > ul > li{
+      height: 46px;
+      line-height: 45px;
+      border-bottom:1px dashed #ccc;
+    }
+    .mydata{
+      text-indent: 2em;
+    }
+  }
+  .my-title{
+    background: image-url('course_4/mytitle.png') repeat-y;
+    background-size: 100% 100%;
+    margin-top: 10px;
+    text-indent: 2.5em;
+    font: 16px bolder "微软雅黑";
+  }
+  .xcBtn {
+    width: 100%!important;
+    margin: 17px 0 10px 0;
+  }
+  .listBar {
+    overflow: hidden;
+  }
+  .baseContent {
+    ul {
+      display: none;
+    }
+    ul li {
+      height: 34px;
+      line-height: 34px;
+      padding-left: 42px;
+      border-bottom: dotted 1px #d7d7d7;
+    }
+  }
+  .partContent {
+    display: none;
+  }
+  .titleContent {
+    margin-top: 10px;
+    overflow: hidden;
+    .titleBlock {
+      height: 40px;
+      width: 2%;
+      margin-right: 2%;
+      line-height: 40px;
+      margin: 5px;
+      background: #c1ddf5;
+      float: left;
+    }
+    .titleBar {
+      height: 40px;
+      line-height: 40px;
+      width: 96%;
+      padding-left: 10px;
+      float: right;
+      margin: 5px 0;
+      cursor: pointer;
+      font-weight: bold;
+      background: #c1ddf5 image-url("course_3/down.png") no-repeat 98% center;
+      &.up {
+        background: #c1ddf5 image-url("course_3/up.png") no-repeat 98% center;
+      }
+    }
+  }
+  .course3 {
+    .carousel-indicators {
+      bottom: -6px;
+      left: 80%!important;
+    }
+   .carousel-indicators li {
+      width: 10px!important;
+      height: 10px!important;
+      border-bottom: none!important;
+      border-radius: 0!important;
+      border: none;
+      background: #fff;
+      &.active {
+        background: #1a5aa0;
+      }
+    }
+  }
+}
+
+//申报材料模态框样式
+.iframe-container {
+  padding-bottom: 60%;
+  padding-top: 30px; height: 0; overflow: hidden;
+}
+.iframe-container iframe,
+.iframe-container object,
+.iframe-container embed{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.modal.in .modal-dialog {
+  transform: none; /*translate(0px, 0px);*/
+}

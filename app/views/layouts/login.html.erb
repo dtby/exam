@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>上海工商技术学院</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="<%= controller.controller_path.gsub('/','__') + '__' + controller.action_name %>" >
+	
+	<!-- header -->
+	<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+		<%= render :partial => "/common/header" %>
+	</header>
+	<!-- header -->
+	<div class="login-bg">	
+	  <%= image_tag "login_bg.jpg" %>	
+	 </div>
+	<div class=".wrapper">
+		<div class="row">
+			<div class="col-md-3 col-md-offset-2 panel panel-default login-form">
+				<%= yield %>
+			</div>
+		</div>
+	</div>
+
+	<!-- footer -->
+	<%= render :partial => "/common/login_footer" %>
+	<!-- footer -->
+</body>
+</html>

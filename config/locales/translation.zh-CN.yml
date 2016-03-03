@@ -1,0 +1,60 @@
+zh-CN:
+  activerecord:
+    models:
+      user:  "用户"
+      teacher: "教师"
+      comment: "评论"
+    attributes:
+      user:
+        login: "用户名或账号"
+        phone: "手机号码"
+        nickname: "昵称"
+        name: "名字"
+        number: "学号"
+        position: "职位"
+        gender: "性别"
+        signature: "个性签名"
+        academy_id: "学院"
+        specialty_id: "专业"
+        grade: "班级"
+        image: "头像"
+
+      comment: 
+        title: "标题"
+        body: "内容"
+    errors:
+      models:
+        user:
+          attributes:
+            phone:
+              blank: "用户名不能为空"
+              taken: "该用户已存在"
+            password:
+              blank: "密码不能为空"
+              too_long: "密码长度必须小于%{count}个字符" 
+              too_short: "密码长度必须大于%{count}个字符" 
+            password_confirmation:
+              blank: "确认密码不能为空"
+              confirmation: "两次密码输入不一致，请重新输入"
+            number:
+              taken: "该学号已存在"
+            image:
+              invalid: "图片格式不正确"
+        teacher:
+          attributes:
+            phone:
+              blank: "用户名不能为空"
+              taken: "该用户已存在"
+            password:
+              blank: "密码不能为空"
+              too_long: "密码长度必须小于%{count}个字符" 
+              too_short: "密码长度必须大于%{count}个字符" 
+            password_confirmation:
+              blank: "确认密码不能为空"
+              confirmation: "两次密码输入不一致，请重新输入"
+        comment:
+          attributes:
+            title:
+              blank: "标题必须填写"
+            body:
+              blank: "内容必须填写"

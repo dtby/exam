@@ -1,0 +1,329 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body.user__index, body.user__show, body.user__update, body.user__my_courses, body.user__my_exams, 
+body.user__score_search, body.user__my_collect, body.user__my_questions, body.user__my_answers, body.user__discuss_center,
+body.user__comment_create, body.user__update_password, .devise__registrations__update, .devise__registrations__edit
+{
+
+  .grey-font {
+    color: #808080;
+  }
+
+  div.row.user {
+    a {
+      color: #000;
+    }
+    li.active a {
+      color: #fff;
+    }
+  }
+
+  #left-bar {
+    padding-right: 20px;
+  }
+
+  //div中图片溢出处理
+  .ov-hidden {
+    overflow: hidden;
+  }
+  
+  //左侧菜单栏
+  div.row nav { 
+	  text-align: center; 
+    
+    p.self-info{
+      line-height: 30px;
+      border-top: 5px solid #337ab7;
+      border-bottom: 5px solid #337ab7;
+      margin-bottom: 20px;
+    }
+
+    .nav li a {
+      //padding: 20px 15px;
+    }
+
+    .nav li {
+      width: 184px;
+      &.active {
+        background: image-url("teacher-active-bg.png") no-repeat 0 0;
+        a {
+          color: #fff;
+        }
+      }
+      a {
+        height: 46px;
+        line-height: 46px;
+        text-align: center;
+        margin: 20px 0;
+        display: block;
+      }
+    }
+  }
+
+  
+
+  div.row.self-main-context {
+    border-top: 4px solid #337ab7;
+    .nav {
+      li {
+        padding-left: 20px; 
+      } 
+    }
+  }
+
+  //个人信息表单
+  .div-form {
+    padding: 30px;
+    color: #808080;
+    input, select, textarea {
+      color: #808080;
+    }
+    .btn {
+     color: #fff;
+    }
+  }
+
+  .radio-inline {
+    padding-left: 0px;
+    padding-right: 15px;
+  }
+
+  .self-main-context {
+   margin-top: 20px;
+   background: #fff;
+   padding-top: 5px;
+  }
+
+  //学生公共信息
+  div.row.common-info {
+    background: #fff;
+    padding-top: 20px;
+
+    .gray-line {
+      border-left: 2px solid #dcdcdc; 
+      height: 140px;
+      padding: 5px;
+
+      p {
+        padding: 15px;
+      }
+    }
+
+    //公共信息table
+    table.no-border tbody tr td {
+      padding: 3px;
+      border: 0!important;
+    }
+
+  }
+
+
+  nav.navbar.navbar-default.nav-left {
+    background-color: #fff;
+  }
+
+  //我的课程一览
+  .my-course-container{
+    padding-top: 20px;
+    div.row.my-course {
+      padding: 20px;
+      border-bottom: 1px solid #dcdcdc; 
+
+      //课程描述
+      .my-course-desc {
+        margin-left: 15px;
+        color: #808080;
+        font-size: 12px;
+
+        h4 {
+          line-height: 1.5;
+          color: #000;
+          font-weight: normal;
+        }
+      }
+
+      //进度
+      .badge {
+        min-width: 60px;
+        line-height: 4;
+        border-radius: 30px;
+        position: absolute;
+        left: 115px;
+        bottom: 50px;
+      }
+    }
+  }
+
+  //我的考试一览
+  .my-exams-container{
+    padding-top: 20px;
+    div.row.my-exams {
+      padding: 30px;
+      border-bottom: 1px solid #dcdcdc; 
+
+      //课程描述
+      .my-exams-desc {
+        margin-left: 15px;
+        color: #808080;
+        font-size: 12px;
+
+        h4 {
+          line-height: 1.5;
+          color: #000;
+          font-weight: normal;
+
+          small span {
+            padding-right: 80px;
+          }
+        }
+      }
+
+      //进度
+      .badge {
+        min-width: 60px;
+        line-height: 4;
+        border-radius: 30px;
+        position: absolute;
+        left: 115px;
+        bottom: 50px;
+      }
+    }
+  }
+
+  //成绩查询
+  .scoure-search {
+    padding-top: 20px;
+    padding-right: 15px;
+
+    .score-list {
+      padding: 10px 15px;
+    }
+
+    .panel-body {
+      padding: 15px 0;
+    }
+
+    h4 {
+      line-height: 2;
+    }
+
+    div.score-detail {
+      line-height: 2;
+    }
+
+    button.btn.btn-warning {
+      margin-top: 5px;
+    }
+  }
+
+  //我的收藏
+  .my-collect-content {
+    padding-top: 20px;
+    padding-right: 15px;
+
+    .collect-list {
+       padding: 10px 15px;
+    }
+
+    .panel-body {
+      padding: 0 0 5px 0;
+      img {
+        width: 100%;
+      }
+
+      h5 {
+        line-height: 2;
+        padding-bottom: 5px;
+      }
+      .collect-desc {
+        padding: 5px;
+
+        div {
+          color: #808080;
+          .glyphicon.glyphicon-star {
+            color: orange;
+          }
+        }
+      }
+    }
+  }
+
+  //我的问答
+  .questions-answers-content {
+    padding-top: 20px;
+    padding-right: 15px;
+
+    .questions-answers-list {
+      padding: 15px 40px;
+      margin: 10px 5px 10px 5px;
+      border-bottom: 1px dotted #dcdcdc;
+
+      .max60 {
+        max-height: 60px;
+        max-width: 60px;
+      }
+
+      table.no-border tbody tr td {
+        padding: 2px;
+        border: 0;
+      }
+      table.no-border tbody tr td.left-border {
+          border-left: 1px solid #dcdcdc;
+      }
+    }
+  }
+
+  //讨论中心
+  .discuss-center-content {
+    padding-top: 20px;
+    padding-right: 15px;
+
+    .discuss-center-list {
+      padding: 15px 40px;
+      margin: 10px 5px 10px 5px;
+      border-bottom: 1px dotted #dcdcdc;
+
+      .max60 {
+        max-height: 60px;
+        max-width: 60px;
+      }
+
+      .max20 {
+        max-height: 20px;
+        max-width: 20px;
+      }
+
+       table.no-border tbody tr td {
+        padding: 2px;
+        border: 0;
+      }
+      table.no-border tbody tr td.left-border {
+          border-left: 1px solid #dcdcdc;
+      }
+
+      .glyphicon-question-sign {
+        color: #77ddff;
+      }
+
+      .glyphicon-info-sign {
+        color: #808080;
+      }
+
+      .no-padding {
+        padding: 0;
+      }
+
+      h5 {
+       line-height: 2;
+      }
+    }
+  }
+
+
+  
+  
+
+
+}

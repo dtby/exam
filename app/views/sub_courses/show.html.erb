@@ -1,0 +1,115 @@
+<% content_for :crumbs do%>
+<ol class="breadcrumb">
+	<li><span class="glyphicon glyphicon-home">&nbsp;</span>当前位置</li>
+	<li><%= link_to "首页", root_path %></li>
+	<li><%= link_to @sub_course.course.name, show_courses_path(@sub_course.course.number) %></li>
+	<li class="active"><%= @sub_course.name %></li>
+</ol>
+<% end %>
+<%= content_for :script do %>
+<%= javascript_include_tag "_sub_course_show", 'data-turbolinks-track' => true %>
+<%end%>
+
+<div class="main-content">
+	<div class="left-content">
+	  <% if @sub_course.regex_video || @sub_course.attachment.file_url.present? %>
+			<div class="video-content">
+				<!-- video -->
+				<% if @sub_course.attachment && @sub_course.attachment.file_url.present? %>
+				  <video width="860" height="500" class="mejs-player" controls="controls" preload="none">
+						<source type="video/mp4" src="<%= @sub_course.attachment.file_url %>" />
+						<source type="video/webm" src="myvideo.webm" />
+						<source type="video/ogg" src="myvideo.ogv" />
+					</video>
+			  <% else %>
+					<video width="860" height="500" class="mejs-player" poster="<%= (@sub_course.attachment.content.url(:c_860_500))%>" controls="controls" preload="none">
+						<source type="video/mp4" src="<%= @sub_course.attachment.content.url %>" />
+						<source type="video/webm" src="myvideo.webm" />
+						<source type="video/ogg" src="myvideo.ogv" />
+					</video>
+				<% end %>
+				<% if !teacher_signed_in? %>
+					<div class="collect-content">
+						<%= form_tag sub_courses_collect_or_praise_path, method: :post, remote: true, id: "subCourseCollectPraise" do %>
+						<%= hidden_field_tag "sub_course_id", @sub_course.id%>
+						<%= hidden_field_tag "scope", '' %>
+							<div class="collect">
+							  <%= link_to "javascript:void(0);", scope: "praise" do %>
+							  	<span class="glyphicon glyphicon-heart <%= @sub_course.is_praise? ? 'glyphicon-pink' : '' %>"></span>
+							  	<span><%= @sub_course.get_likes(vote_scope: :praise).size %></span>
+							  <% end %>
+							</div>
+						  <div class="collect">
+							  <%= link_to "javascript:void(0);", scope: "collect" do %>
+							    <span class="glyphicon glyphicon-star <%= @sub_course.is_collect? ? 'glyphicon-orange' : '' %>"></span>
+							  	<span><%= @sub_course.get_likes(vote_scope: :collect).size %></span>
+							  <% end %>
+							</div>
+						<% end %>
+					</div>
+				<% end %>
+			</div>
+		<% else %>
+		  <div style="width: 900px; height: 500px; overflow: hidden; background: #fff;" ><%= pdfjs_viewer pdf_url: @sub_course.attachment.content.url, style: :full %></div>
+		  <div class="fix-size-bg">
+			  <div class="col-sm-4 pull-right">
+			  	<div class="col-sm-6 pull-left text-center">
+			    	大小: <%= @sub_course.count_file_size %>
+			    </div>
+			    <div class="col-sm-6 pull-right text-right">
+			    	<%= link_to "下载", download_sub_course_path( @sub_course.number), class: 'btn btn-success'%>
+			    </div>
+			  </div>
+		  </div>
+		<% end %>
+
+		<div id="commentContent" class="comments-content">
+    	<%= render :partial => "comment_show" , locals: {comments: @comments }%>
+		</div>
+	</div>
+	<div class="right-bar">
+		<div class="related-video">
+			<p class="title">
+				<%= @course.name %>
+			</p>
+			<ul class="videos">
+				<%= truncate(@course.description, length: 220) %>
+			</ul>
+			<p class="title">任课教师</p>
+			<ul class="teachers">
+				<% @course.teacher_courses.each do |teacher_course| %>
+				  <li class="list text-center">
+				    <%= teacher_course.try(:teacher).try(:name) %>
+				    <%= link_to image_tag(teacher_course.try(:teacher).try(:image).try(:avatar).url(:t_60)), show_teachers_path(teacher_course.teacher.number) if teacher_course.try(:teacher).try(:image).present? %>
+				  </li>
+				<% end %>
+			</ul>
+			<div class="buttons">
+				<%= link_to "课后作业", after_class_courses_path(@course.number), class: "btn btn-primary"%>
+				<%= link_to "成绩查询", teacher_signed_in? ? my_score_teachers_path : my_exams_user_index_path, class: "btn btn-success"%>
+			</div>
+			<div class="students-content">
+				<p class="total">
+					<span class="text"><%= @partners.size %></span> 位共同战斗的同学
+					<%= link_to "" do %>
+					<span class="glyphicon glyphicon-refresh"></span>
+					<% end %>
+				</p>
+				<ul class="students">
+					<% @partners.each do |partner| %>
+					<li>
+						<div class="media-left">
+							<a href="javascript:void(0)">
+								<%= image_tag partner.try(:voter).try(:show_image), class: "img-circle" %>
+							</a>
+						</div>
+						<div class="media-body">
+							<h5 class="media-heading"><%= partner.try(:voter).try(:show_name) %></h5>
+							<p class="comment-info"><%= partner.try(:voter).try(:position) %></p>
+						</div>
+					</li>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+	</div>

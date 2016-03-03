@@ -1,0 +1,46 @@
+<%= content_for :script do %>
+  <%= javascript_tag do %>
+    get_specialties_path = "<%= get_specialties_user_index_path %>"
+    get_grades_path = "<%= get_grades_user_index_path %>"
+  <% end %>
+  <%= javascript_include_tag "_user_show", 'data-turbolinks-track' => true %>
+<% end %>
+
+<%= simple_form_for([:admin, @user], html: {class: "form-horizontal"}, wrapper: :horizontal_form, wrapper_mappings: {file: :horizontal_file_input, radio_buttons: :horizontal_radio_and_checkboxes }) do |f| %>
+  <%= f.input :nickname %>
+  <% if @user.image.present? %>
+    <div class="form-group">
+      <%= label_tag :image, '已传头像', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= image_tag(@user.image.avatar.url, size: "300x200") %>
+      </div>
+    </div>
+  <% end %>
+  <%= f.input :image , as: :file %>
+  <%= f.input :name %>
+  <%= f.input :username, label: "用户名" %>
+  <%= f.input :number %>
+  <%= f.input :position %>
+  <%= render :partial => "common/common_select", locals: {f: f} %>
+  <%= f.input :phone, required: false %>
+  <%= f.input :password, required: false, label: "密码" %>
+  <%= f.input :password_confirmation, label: "确认密码" %>
+  <%= f.input :gender, collection: User::PartnerGender.to_a.reverse_each{|x| x.reverse!}, as: :radio_buttons %>
+  <%= f.input :signature, as: :text %>
+  <%= f.input :campus, label: '校区'%>
+
+  <hr></hr>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button class="btn btn-success" type="submit">
+        <span class="glyphicon glyphicon-floppy-save">保存</span>
+      </button>
+    </div>
+  </div>
+<%end%>
+
+<script type="text/javascript">
+  $(function(){
+    $("#user_image").fileinput();
+  });
+</script>

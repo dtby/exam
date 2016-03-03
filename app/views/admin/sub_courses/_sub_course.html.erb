@@ -1,0 +1,42 @@
+<tr>
+  <td>
+    <%= link_to higher_admin_course_sub_course_path(@course, sub_course), method: :patch, title: '上移', remote: true do %>
+      <span class="glyphicon glyphicon-arrow-up"></span>
+    <% end %>
+    <%= link_to lower_admin_course_sub_course_path(@course, sub_course), method: :patch, title: '下移', remote: true do %>
+      <span class="glyphicon glyphicon-arrow-down"></span>
+    <% end %>
+  </td>
+  <td><%= sub_course.number %></td>
+  <td><%= sub_course.name %></td>
+  <td><%= sub_course.try(:category).name if sub_course.category %></td>
+  <td><%= SubCourse::TAGS[sub_course.tag.to_sym] if sub_course.tag.present? %></td>
+  <% if sub_course.attachment && sub_course.attachment.file_url.present? %>
+    <td><%= sub_course.attachment.file_url.to_s[0..10] if sub_course.attachment%></td>
+  <% else %>
+    <td><%= sub_course.attachment.content_file_name.to_s[0..10] if sub_course.attachment && sub_course.attachment.content.present? %></td>
+  <% end %>
+  <td>
+    <%= link_to "测试题目", admin_course_sub_course_questions_path(@course.id, sub_course)%>
+  </td>
+  <td><%= sub_course.deleted? ? raw("<span class='text-danger'>已删除</span>") : ""%></td>
+  <% if can? :manage, SubCourse %>
+    <td>
+      <%#= link_to [:admin, @course, sub_course], class: 'btn btn-xs btn-info', title: '查看' do %>
+        <!-- <span class="glyphicon glyphicon-eye-open"></span>
+      <%#end%> -->
+      <%= link_to edit_admin_course_sub_course_path(@course, sub_course), class: 'btn btn-xs btn-default', title: '编辑' do %>
+        <span class="glyphicon glyphicon-edit"></span>
+      <%end%>
+      <% if sub_course.deleted? %>
+        <%= link_to restore_admin_course_sub_course_path(@course, sub_course), method: :patch, data: { confirm: '确定要还原吗？' }, class: 'btn btn-xs btn-default' do%>
+          <span class="glyphicon glyphicon-export"></span>
+        <% end %>
+      <% else%>
+        <%= link_to delete_admin_course_sub_course_path(@course, sub_course), method: :patch, data: { confirm: '确定要删除吗？' }, class: 'btn btn-xs btn-default' do%>
+          <span class="glyphicon glyphicon-trash"></span>
+        <% end %>
+      <% end %>
+    </td>
+  <% end %>
+</tr>

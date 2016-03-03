@@ -1,0 +1,48 @@
+<%= content_for :nav do%>
+  <li>
+   <a href="#{admin_root_path}">后台</a>
+  </li>
+  <li class="active">课程列表</li>
+<%end%>
+
+<%= content_for :toolbar do %>
+  <div class="col-xs-12">
+    <%= link_to new_admin_course_path, class: 'btn btn-success' do %>
+      <span class="glyphicon glyphicon-plus-sign">新建</span>
+    <%end%>
+    <div class="btn-group" role="group" aria-label="...">
+      <%= link_to "全部", admin_courses_path, class: "btn btn-default #{params[:status].present? ? '' : 'btn-primary'}" %>
+      <%= link_to "未删除", admin_courses_path(status: "undeleted"), class: "btn btn-default #{params[:status] == 'undeleted' ? 'btn-primary' : ''}" %>
+      <%= link_to "已删除", admin_courses_path(status: "deleted"), class: "btn btn-default #{params[:status] == 'deleted' ? 'btn-primary' : ''}" %>
+    </div>
+    <div class="col-xs-3 pull-right">
+      <div class="form-group">
+        <%= render partial: 'admin/common/keyword', locals: {path: ""} %>
+      </div>
+    </div>
+  </div>
+<%end%>
+
+<hr></hr>
+<table class="table table-hover table-bordered text-center">
+  <thead>
+    <tr>
+      <th class="text-center">展示图</th>
+      <th class="text-center">编号</th>
+      <th class="text-center">名称</th>
+      <th class="text-center">课程负责人</th>
+      <th class="text-center">描述</th>
+      <th class="text-center">校级精品课程</th>
+      <th class="text-center">市级精品课程</th>
+      <th class="text-center">状态</th>
+      <!-- <th class="text-center">子课程</th> -->
+      <% if can? :manage, Course %>
+        <th class="text-center" colspan="2">操作</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render @courses %>
+  </tbody>
+</table>
+<%= paginate @courses %>

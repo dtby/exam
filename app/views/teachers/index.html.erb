@@ -1,0 +1,54 @@
+<%= content_for :script do %>
+  <%= javascript_include_tag "_teachers", 'data-turbolinks-track' => true %>
+<%end%>
+
+<% content_for :crumbs do%>
+  <ol class="breadcrumb">
+    <li><span class="glyphicon glyphicon-home">&nbsp;</span>当前位置</li>
+    <li><%= link_to "首页", root_path %></li>
+    <li class="active">教师风采</li>
+  </ol>
+<% end %>
+
+<div class="main-content">
+  <section class="common-title">
+  	<span class="pull-left">教师风采</span>
+  </section>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <!-- 、、、、、、、、、、、、、、、、系别。。。。。。。。。。。。。。。。。 -->
+      <div class="row serach-content">
+        <div class="col-sm-1 text-right serach-name">
+          <span>系别：</span>
+        </div>
+        <div class="col-sm-11">
+          <ul class="nav nav-pills serach-course">
+            <li param="" class="active"><a href="#">全部</a></li>
+            <% @academies.each_with_index do |academy, index| %>
+              <li param="<%= academy.id %>"><%= link_to academy.name, "#" %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= render partial: "teacher", locals: {teachers: @teachers} %>
+</div>
+
+<%= link_to "", "#", id: "ajaxIndex", style: "display: none;", remote: true, format: :js %>
+
+<script type="text/javascript">
+  $('.serach-content ul a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+
+    var url = "<%= teachers_path %>";
+    url += "?"
+    $('.serach-content ul').find(".active").each(function(index){
+      var param = $(this).attr("param");
+      url = url + "academy_id=" + param;
+    });
+    $("#ajaxIndex").attr("href", url);
+    $("#ajaxIndex").click();
+  })
+</script>

@@ -1,0 +1,37 @@
+<div class="main-content">
+  <section class="common-title">
+    <span class="pull-left">讨论中心</span>
+  </section>
+
+  <!-- <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="row serach-content">
+        <div class="col-sm-1 text-right serach-name">
+          <span>系别：</span>
+        </div>
+        <div class="col-sm-11">
+          <ul class="nav nav-pills serach-course">
+            <li param="" class="active"><a href="#">全部</a></li>
+            <%# @academies.each_with_index do |academy, index| %>
+              <li param="<%#= academy.id %>"><%#= link_to academy.name, "#" %></li>
+            <%# end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <ul class="nav nav-pills discuss-menu">
+    <%= render "tabs" %>
+  </ul>
+
+  <div id="topicList" class="container discuss-list">
+    <%#= render "topic", locals: {topics: @topics} %>
+    <%#= render "wait"%>
+    <% @specialties.each do | specialty| %>
+      <div class="col-sm-3">
+        <%= link_to specialty.name, sorts_discusses_path, class: "btn btn-default btn-block btn-height" %>
+      </div>
+    <% end %>
+  </div>
+</div>

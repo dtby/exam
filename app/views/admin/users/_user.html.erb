@@ -1,0 +1,22 @@
+<tr>
+  <td><%= image_tag(user.show_image, style: "max-height:60px;max-width:60px;") %></td>
+  <td><%= user.try(:grade).try(:specialty).try(:name) %></td>
+  <td><%= user.try(:grade).try(:specialty).try(:code) %></td>
+  <td><%= user.try(:grade).try(:name) %></td>
+  <td><%= user.number %></td>
+  <td><%= user.name %></td>
+  <td><%= user.phone %></td>
+  <td><%= User::PartnerGender[user.gender.to_sym] %></td>
+  <td><%= user.campus %></td>
+  <td>
+    <%= link_to [:admin, user], class: 'btn btn-xs btn-info', title: '查看' do %>
+      <span class="glyphicon glyphicon-eye-open"></span>
+    <%end%>
+    <%= link_to edit_admin_user_path(user), class: 'btn btn-xs btn-default', title: '编辑' do %>
+      <span class="glyphicon glyphicon-edit"></span>
+    <%end%>
+    <%= link_to nil, class: 'btn btn-xs btn-danger', title: '删除' do %>
+      <span class="glyphicon glyphicon-trash"></span>
+    <%end%>
+  </td>
+</tr>

@@ -1,0 +1,13 @@
+<% if current_user.present? %>
+  <h3 id="body">欢迎登入考试系统，请点击考试中心参与考试!</h3>
+<% else %>
+  <h3 id="body">欢迎登入考试系统，请点击考试中心进行发布/批阅试卷!</h3>
+<% end %>
+
+
+<script type="text/javascript">
+  $(function(){
+    var b_height = $(window).height() - 214 + "px";
+    $("#body").css({"height": b_height, "line-height":b_height, "text-align": "center"})
+  })
+</script>

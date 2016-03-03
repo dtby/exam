@@ -1,0 +1,91 @@
+<div class="col-md-8">
+	<div class="row">
+	  <div class="col-md-3">
+		  <div class="pull-left">
+		    <%= image_tag current_user.show_image , class: "img-rounded" %>
+		  </div>
+	  </div>
+	  <div class="col-md-9">
+	    <table class="table no-border">
+	      <tr>
+	        <td>
+	          <span class="text-primary">&bull;</span>
+	          姓名：<%= current_user.name%>
+	        </td>
+	        <!-- <td>
+	          <span class="text-primary">&bull;</span>
+	          学习时长：830小时40分钟10秒
+	        </td>
+	      </tr>
+	      <tr>
+	      	<td>
+	          <span class="text-primary">&bull;</span>
+	          职位：<%= current_user.position%>
+	        </td> -->
+	        <td>
+	          <span class="text-primary">&bull;</span>
+	          已学课程：<%= numbers[:collect_course] %>门
+	        </td>
+	      </tr>
+	      <tr>
+	      	<td>
+	          <span class="text-primary">&bull;</span>
+	          学号：<%= current_user.number%>
+	        </td>
+	        <td>
+	          <span class="text-primary">&bull;</span>
+	          未学课程：
+	          <% if numbers[:course] == 0 %>
+	          0
+	          <% else %>
+	          <%= numbers[:course] - numbers[:collect_course] %>
+	          <% end %>
+	          门
+	        </td>
+	      </tr>
+	      <tr>
+	        <td>
+	          <span class="text-primary">&bull;</span>
+	          系部：<%= current_user.try(:grade).try(:specialty).try(:academy).try(:name) %>
+	        </td>
+	        <td>
+	          <span class="text-primary">&bull;</span>
+	          测试次数：<%= numbers[:exams] %>次
+	        </td>
+	      </tr>
+	      <tr>
+	      	<td>
+	          <span class="text-primary">&bull;</span>
+	          专业：<%= current_user.try(:grade).try(:specialty).try(:name) %>
+	        </td>
+	        <td>
+	          <span class="text-primary">&bull;</span>
+	          提问数量：<%= numbers[:question_comments] %>条
+	        </td>
+	      </tr>
+	      <tr>
+	        <td>
+	          <span class="text-primary">&bull;</span>
+	          班级：<%= current_user.try(:grade).try(:name) %>
+	        </td>
+	        <td>
+	          <span class="text-primary">&bull;</span>
+	          回答数量：<%= numbers[:answer_comments] %>条
+	        </td>
+	      </tr>
+		</table>
+	  </div>
+	</div>
+		
+	</div>
+	<div class="col-md-4" >
+	<div class="gray-line">
+		<div>
+		  <button type="button" class="btn btn-primary">今日提醒</button>
+		  <span class="pull-right"><%= Time.now.try(:strftime,'%Y-%m-%d %A') %></span>
+		</div>
+		<p>
+		  &nbsp;&nbsp;&nbsp;&nbsp;今天有一场关于<span class="text-danger">《CSS实现网页平滑过渡效果》</span>的测试，请抓紧复习，要记住时间，到时记得参加测试哦~
+		<p>
+	</div>
+</div>

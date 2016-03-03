@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>上海工商职业技术学院 · 课程中心</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= yield :script %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="<%= controller.controller_path.gsub('/','__') + '__' + controller.action_name %>" >
+	<!-- header -->
+	<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+		<%= render partial: "/common/header" %>
+		<nav class="navbar navbar-default main-home-header" role="navigation">
+		  <%= render partial: "/common/nav" %>
+		  <%= yield :lunbo %>
+		</nav>
+	</header>
+	<!-- header -->
+
+	<!-- flash notice -->
+	<%= render :partial => "/common/messages" %>
+	<!-- flash notice -->
+
+	<div class="wrapper">
+	  <%= yield :crumbs %>
+		<%= yield %>
+	</div>
+
+	<!-- footer -->
+	<%= render :partial => "/common/footer" %>
+	<!-- footer -->
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+<%= form_for([:admin, @teacher], html: {class: "form-horizontal"}) do |f| %>
+  <div class="form-group">
+    <%= f.label :academy_id, '所属学院', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.select(:academy_id, Academy.all.pluck(:name, :id), {prompt: '请选择学院'}, {class: 'form-control'}) %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= label_tag :grades, '所教班级', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <% Grade.all.each do |grade| %>
+        <%= check_box_tag("teacher[grade_ids][]", grade.id, grade.id.in?(@teacher.grades.collect(&:id)))%>
+        (<%= grade.try(:specialty).try(:name) %>)<%= grade.name%>
+      <%end%>
+    </div>
+  </div>
+  <% if @teacher.image.present? %>
+    <div class="form-group">
+      <%= label_tag :image, '已传头像', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= image_tag @teacher.image.avatar.url, style: "max-width: 200px" %>
+      </div>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= f.label :image, '头像', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.file_field :image, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :number, '工号', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :number, class: 'form-control', required: true %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :phone, '手机号', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :phone, class: 'form-control', required: true %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :username, '用户名', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :username, class: 'form-control', required: true %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :name, '姓名', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :email, '电子邮箱', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.email_field :email, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :fax, '传真号码', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :fax, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :birthday, '出生年月', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :birthday, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :tec_position, '专业技术职位', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :tec_position, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :final_education, '最终学历', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :final_education, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :final_degree, '最终学位', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :final_degree, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :qualification, '资格证书', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :qualification , class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :tec_expertise, '教学与技术专长 ', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :tec_expertise , class: 'form-control' %>
+    </div>
+  </div>
+
+  <hr></hr>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button class="btn btn-success" type="submit">
+        <span class="glyphicon glyphicon-floppy-save">保存</span>
+      </button>
+    </div>
+  </div>
+<%end%>
+
+<script type="text/javascript">
+  $(function(){
+    $("#teacher_image").fileinput();
+  });
+</script>
